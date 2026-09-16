@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// AppStateProvider holds all GLOBAL state for the app.
-///
-/// Anything that needs to be seen/changed from more than one screen
-/// (theme, profile name, activity completion flags, etc.) lives here.
-/// Screen-only state (e.g. a counter on a single activity page) should
-/// stay local inside that screen's StatefulWidget instead of being
-/// pushed up into this provider.
+
 class AppStateProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
   String _profileName = 'Student';

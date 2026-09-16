@@ -10,9 +10,7 @@ void main() {
   runApp(const PortfolioApp());
 }
 
-/// Root widget. ChangeNotifierProvider makes ONE shared instance of
-/// AppStateProvider available to every widget below it in the tree --
-/// this is the "global state" backbone the rest of the app plugs into.
+
 class PortfolioApp extends StatelessWidget {
   const PortfolioApp({super.key});
 

@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../widgets/custom_button.dart';
 
-/// Activity 2: a small form. Local state = the text the user is
-/// currently typing (belongs in this screen only) vs. global state =
-/// nothing here needs to be shared, so it stays local.
+
 class ActivityTwoScreen extends StatefulWidget {
   const ActivityTwoScreen({super.key});
 

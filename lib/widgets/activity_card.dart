@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/activity_item.dart';
 
-/// STATIC / PRESENTATIONAL widget -> StatelessWidget.
-///
-/// This card never holds its own mutable state: it just renders whatever
-/// ActivityItem it is given and reports taps via onTap. That's exactly
-/// the kind of component that belongs as a StatelessWidget.
+
 class ActivityCard extends StatelessWidget {
   final ActivityItem item;
   final VoidCallback onTap;
@@ -26,8 +22,7 @@ class ActivityCard extends StatelessWidget {
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          // Column + Expanded keep the content flexible so the card
-          // never overflows on narrow phones or wide tablets.
+     
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

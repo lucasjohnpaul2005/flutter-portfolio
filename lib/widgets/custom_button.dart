@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Another purely presentational widget -> StatelessWidget.
-/// Takes a label + callback, renders itself, and nothing else.
+
 class CustomButton extends StatelessWidget {
   final String label;
   final IconData? icon;

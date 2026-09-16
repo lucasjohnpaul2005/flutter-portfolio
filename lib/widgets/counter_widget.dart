@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// LOCAL, SCREEN-SPECIFIC interaction -> StatefulWidget.
-///
-/// The count here only matters to whoever is looking at this widget
-/// right now. Nothing else in the app needs to know about it, so it
-/// stays as private local state instead of going into the global
-/// AppStateProvider.
+
 class CounterWidget extends StatefulWidget {
   final String label;
 

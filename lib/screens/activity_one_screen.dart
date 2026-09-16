@@ -4,9 +4,7 @@ import '../providers/app_state_provider.dart';
 import '../widgets/counter_widget.dart';
 import '../widgets/custom_button.dart';
 
-/// Activity 1: demonstrates a StatefulWidget with SCREEN-LOCAL state
-/// (the toggled favorite + the counter) alongside responsive layout
-/// using Row/Column + Expanded/Flexible.
+
 class ActivityOneScreen extends StatefulWidget {
   const ActivityOneScreen({super.key});
 
@@ -38,8 +36,7 @@ class _ActivityOneScreenState extends State<ActivityOneScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row + Expanded/Flexible: adapts to available width
-              // instead of using a fixed pixel size, avoiding overflow.
+          
               Row(
                 children: [
                   Expanded(
