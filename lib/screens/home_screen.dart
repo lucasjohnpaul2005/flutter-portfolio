@@ -15,21 +15,21 @@ class HomeScreen extends StatelessWidget {
   static const routeName = '/home';
 
   List<ActivityItem> _activities(BuildContext context) => [
-        ActivityItem(
+        const ActivityItem(
           title: 'Activity 1',
           subtitle: 'Widgets & Layout basics',
           icon: Icons.widgets_outlined,
           routeName: '/activity-one',
           color: Colors.indigo,
         ),
-        ActivityItem(
+        const ActivityItem(
           title: 'Activity 2',
           subtitle: 'Forms & user input',
           icon: Icons.edit_note_outlined,
           routeName: '/activity-two',
           color: Colors.teal,
         ),
-        ActivityItem(
+        const ActivityItem(
           title: 'Settings',
           subtitle: 'Theme & profile',
           icon: Icons.settings_outlined,
