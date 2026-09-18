@@ -4,7 +4,11 @@ import '../models/activity_item.dart';
 import '../providers/app_state_provider.dart';
 import '../widgets/activity_card.dart';
 
-
+/// The Home Dashboard is itself a StatefulWidget only because it needs
+/// initState-level setup in a bigger app; here it's kept Stateless-like
+/// in spirit (no local mutable UI state) but we use StatelessWidget
+/// directly since nothing local ever changes on this screen -- every
+/// piece of dynamic info (profile name, theme) comes from the provider.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -26,6 +30,13 @@ class HomeScreen extends StatelessWidget {
           color: Colors.teal,
         ),
         const ActivityItem(
+          title: 'Network Monitor',
+          subtitle: 'Wi-Fi / Cellular handover',
+          icon: Icons.wifi_tethering,
+          routeName: '/network-monitor',
+          color: Colors.blueAccent,
+        ),
+        const ActivityItem(
           title: 'Settings',
           subtitle: 'Theme & profile',
           icon: Icons.settings_outlined,
@@ -36,7 +47,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    // context.watch<AppStateProvider>() subscribes this widget to the
+    // provider: whenever notifyListeners() fires (e.g. theme toggled
+    // or profile name changed on the Settings screen), THIS build()
+    // method re-runs automatically and the UI updates instantly --
+    // this is the "global state management" requirement in action.
     final appState = context.watch<AppStateProvider>();
     final activities = _activities(context);
 
@@ -69,7 +84,10 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               const Text('Choose an activity to open:'),
               const SizedBox(height: 12),
-   
+              // RESPONSIVE LAYOUT: LayoutBuilder inspects the available
+              // width and picks the number of grid columns accordingly,
+              // so this same screen adapts from a narrow phone up to a
+              // tablet/desktop window without ever overflowing.
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {

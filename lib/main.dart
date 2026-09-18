@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_state_provider.dart';
+import 'providers/network_monitor_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/activity_one_screen.dart';
 import 'screens/activity_two_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/network_monitor_screen.dart';
 
 void main() {
   runApp(const PortfolioApp());
 }
 
-
+/// Root widget. MultiProvider makes ONE shared instance each of
+/// AppStateProvider and NetworkMonitorProvider available to every widget
+/// below it in the tree -- this is the "global state" backbone the rest
+/// of the app plugs into.
 class PortfolioApp extends StatelessWidget {
   const PortfolioApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AppStateProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppStateProvider()),
+        ChangeNotifierProvider(create: (_) => NetworkMonitorProvider()),
+      ],
       child: Consumer<AppStateProvider>(
         builder: (context, appState, _) {
           return MaterialApp(
@@ -42,6 +50,7 @@ class PortfolioApp extends StatelessWidget {
               ActivityOneScreen.routeName: (_) => const ActivityOneScreen(),
               ActivityTwoScreen.routeName: (_) => const ActivityTwoScreen(),
               SettingsScreen.routeName: (_) => const SettingsScreen(),
+              NetworkMonitorScreen.routeName: (_) => const NetworkMonitorScreen(),
             },
           );
         },

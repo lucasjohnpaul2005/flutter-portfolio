@@ -69,6 +69,56 @@ lib/
   rebuilds the Home Dashboard's greeting and the app's `MaterialApp` theme
   everywhere, with no manual plumbing.
 
+## Activity: Network Monitor (Wi-Fi ↔ Cellular handover)
+
+Adds a **Network Monitor** screen demonstrating real-time connectivity
+tracking and graceful handling of a dropped/handed-over connection.
+
+```
+lib/
+├── models/
+│   └── queued_request.dart        # RequestStatus enum + QueuedRequest model
+├── services/
+│   ├── connectivity_service.dart  # wraps connectivity_plus -> Stream<NetworkStatus>
+│   └── network_request_service.dart # simulates a chunked "large dataset" fetch
+├── providers/
+│   └── network_monitor_provider.dart # stream listener + queue + retry logic
+├── screens/
+│   └── network_monitor_screen.dart   # live status badge + request list
+└── widgets/
+    ├── network_status_badge.dart     # StatelessWidget: Wi-Fi/Cellular/Offline pill
+    └── queued_request_tile.dart      # StatelessWidget: one row in the queue
+```
+
+**How it satisfies each requirement:**
+- **Network Stream Listener** — `ConnectivityService.onStatusChanged` wraps
+  `Connectivity().onConnectivityChanged` from `connectivity_plus` and maps it
+  to a simple `NetworkStatus` enum (`wifi`, `cellular`, `offline`, `other`).
+  `NetworkMonitorProvider` subscribes to this stream once in its constructor.
+- **Real-time UI** — `NetworkMonitorScreen` calls
+  `context.watch<NetworkMonitorProvider>()`, so `NetworkStatusBadge` re-renders
+  immediately whenever the stream emits a new status — no polling, no manual
+  refresh.
+- **Request Queuing System** — `NetworkRequestService.simulateFetch()` mimics a
+  long-running download in 5 chunks, checking connectivity before starting
+  and between every chunk. If the connection is gone, it throws a
+  `NetworkDroppedException` instead of letting a real socket error propagate.
+  `NetworkMonitorProvider._runRequest()` catches that exception and marks the
+  request `RequestStatus.queued` instead of crashing or discarding it.
+- **Graceful Recovery** — `NetworkMonitorProvider._onStatusChanged()` detects
+  the transition from offline → online (Wi-Fi *or* Cellular) and calls
+  `_retryQueuedRequests()`, which re-runs every queued request automatically.
+  A manual "Retry now" button on each queued tile is also available.
+
+**Testing the handover on your machine:**
+- **Android emulator**: Extended Controls → Cellular, or toggle Wi-Fi off in
+  the emulator's quick settings while a request is in progress.
+- **Physical device**: turn Wi-Fi off mid-fetch to force a fallback to
+  Cellular (or vice versa), or toggle airplane mode on/off to simulate a full
+  drop and recovery.
+- **Chrome/web**: the browser doesn't expose real adapter switching, so use
+  DevTools → Network → "Offline" throttling to simulate the drop instead.
+
 ## Recording your demo
 
 For the deliverable, record a short screen capture that:

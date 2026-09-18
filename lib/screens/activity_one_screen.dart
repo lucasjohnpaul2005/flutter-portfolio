@@ -36,7 +36,8 @@ class _ActivityOneScreenState extends State<ActivityOneScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          
+              // Row + Expanded/Flexible: adapts to available width
+              // instead of using a fixed pixel size, avoiding overflow.
               Row(
                 children: [
                   Expanded(

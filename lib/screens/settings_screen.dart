@@ -3,7 +3,12 @@ import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../widgets/custom_button.dart';
 
-
+/// Settings screen: this is the ONE place in the app where the user
+/// edits GLOBAL state (theme + profile name). Because both live in
+/// AppStateProvider and every screen that reads them uses
+/// context.watch(), changing them here updates the Home Dashboard
+/// (and anywhere else) instantly -- no manual refresh, no passing
+/// callbacks down through constructors.
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -19,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-   
+    // Pre-fill the field with the current global value.
     _nameController = TextEditingController(
       text: context.read<AppStateProvider>().profileName,
     );
@@ -45,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               Text('Appearance', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
-            
+              // SwitchListTile bound directly to global state.
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Dark mode'),
